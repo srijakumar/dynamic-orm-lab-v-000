@@ -7,4 +7,16 @@ class InteractiveRecord
     "#{self.to_s.downcase}s"
   end
 
+  def self.column_names
+    sql = "pragma table_info('#{table_name}')"
+
+    table = DB[:conn].execute(sql)
+
+    column_names=[]
+    table.each do|row|
+      column_names << row["name"]
+    end
+    column_names.compact
+  end
+
 end
